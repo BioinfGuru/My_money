@@ -1,0 +1,22 @@
+#######################
+# My .gitignore file: #
+#######################
+
+# ignore log files
+*.log
+
+# ignore temp files
+*.temp
+
+# ignore .orig files output from merge tools
+*.orig
+
+# ignore .pdf files (bank statements - private)
+*.pdf
+
+# ignore .csv files (output files - private)
+*.csv
+
+# ignore .txt files (my notes)
+*txt
+
