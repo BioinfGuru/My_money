@@ -1,7 +1,10 @@
 #!/bin/bash 		
 
 # Description:	Converts pdf files named [month]_statement.pdf to text and csv files
-# 				Requires: tabula, poppler-utils 
+
+# Dependencies: tabula (extract tables from pdf)
+#               download via ubuntu software --> 'tabula'
+#               https://github.com/tabulapdf/tabula-java/wiki/Using-the-command-line-tabula-extractor-tool
 
 # To run:	./get_transactions.sh
 
@@ -9,11 +12,12 @@
 
 #######################################################################################
 
-# #Create csv files with no other processing
+# # Create csv files with no other processing
+# # NOTE: 2>/dev/null redirects tabula warnings to oblivion
 # for FILE in *.pdf; 
 # 	do
 # 		CSV_OUT=$(echo "$FILE" | awk -F '_' '{print $1"_statement.csv"}');
-# 		tabula -p all $FILE -o $CSV_OUT
+# 		tabula -p all $FILE 2>/dev/null -o $CSV_OUT
 # 	done
 # echo Conversion Complete!
 
@@ -50,8 +54,9 @@ for FILE in *temp.csv
 					' $FILE | sort > $OUT;
 	done
 
-# Create final output files + cleanup
+# Create final output files + cleanup directories
 cat *expenses.csv | sort -t"," -k3,3n -k1,1 > all_expenses_sorted_by_price.csv 					# sorts by price (numerical) then month
 sort -t"," -k2,2 -k1,1  all_expenses_sorted_by_price.csv > all_expenses_sorted_by_name.csv 		# sorts by name then month
 rm *temp.csv *expenses.csv
+mkdir -p Out && mv *.csv ./Out
 echo Done!
